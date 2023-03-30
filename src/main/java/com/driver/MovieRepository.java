@@ -2,10 +2,7 @@ package com.driver;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MovieRepository {
@@ -16,49 +13,47 @@ public class MovieRepository {
     HashMap<String, List<String>> movieDirectorHashMap = new HashMap<>();
 
     public void addMovie(Movie movie){
-        String name = movie.getName();
-        movieHashMap.put(name,movie);
+        movieHashMap.put(movie.getName(),movie);
     }
 
     public void addDirector(Director director){
-        String name = director.getName();
-        directorHashMap.put(name, director);
+        directorHashMap.put(director.getName(), director);
     }
 
-    public void addMovieDirectorPair(String movie, String director){
+    public void addMovieDirectorPair(String movieName, String directorName){
         List<String> moviesList = new ArrayList<>();
-        if(movieDirectorHashMap.containsKey(director)){
-            moviesList = movieDirectorHashMap.get(director);
-            moviesList.add(movie);
-            movieDirectorHashMap.put(director,moviesList);
+        if(movieDirectorHashMap.containsKey(directorName)){
+            moviesList = movieDirectorHashMap.get(directorName);
+            moviesList.add(movieName);
+            movieDirectorHashMap.put(directorName,moviesList);
         }
         else{
-            moviesList.add(movie);
-            movieDirectorHashMap.put(director,moviesList);
+            moviesList.add(movieName);
+            movieDirectorHashMap.put(directorName,moviesList);
         }
     }
 
-    public  Movie getMovieByName(String movie){
-        if (movieHashMap.containsKey(movie)){
-            return movieHashMap.get(movie);
+    public  Movie getMovieByName(String movieName){
+        if (movieHashMap.containsKey(movieName)){
+            return movieHashMap.get(movieName);
         }
         else {
             return null;
         }
     }
 
-    public  Director getDirectorByName(String director){
-        if (directorHashMap.containsKey(director)){
-            return directorHashMap.get(director);
+    public  Director getDirectorByName(String directorName){
+        if (directorHashMap.containsKey(directorName)){
+            return directorHashMap.get(directorName);
         }
         else {
             return null;
         }
     }
 
-    public List<String> getMoviesByDirectorName(String director){
-        if(movieDirectorHashMap.containsKey(director)){
-            return movieDirectorHashMap.get(director);
+    public List<String> getMoviesByDirectorName(String directorName){
+        if(movieDirectorHashMap.containsKey(directorName)){
+            return movieDirectorHashMap.get(directorName);
         }
         else{
             return null;
@@ -75,20 +70,21 @@ public class MovieRepository {
         return moviesList;
     }
 
-    public void deleteDirectorByName(String director) {
-        if(movieDirectorHashMap.containsKey(director)){
-            List<String> movies = movieDirectorHashMap.get(director);
+
+    public void deleteDirectorByName(String directorName) {
+        if(movieDirectorHashMap.containsKey(directorName)){
+            List<String> movies = movieDirectorHashMap.get(directorName);
 
             for(String movie: movies){
                 if(movieHashMap.containsKey(movie)){
                     movieHashMap.remove(movie);
                 }
             }
-            movieDirectorHashMap.remove(director);
+            movieDirectorHashMap.remove(directorName);
         }
 
-        if(directorHashMap.containsKey(director)){
-            directorHashMap.remove(director);
+        if(directorHashMap.containsKey(directorName)){
+            directorHashMap.remove(directorName);
         }
     }
 
